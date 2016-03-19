@@ -7,14 +7,20 @@ Inline arbitrary expressions and statically evaluate them if possible
 ### In
 
 ```js
-// assuming { "process.env.NODE_ENV": "development" } is given in plugin options
+// assuming options are { "process.env.NODE_ENV": "development", "typeof window": "object" }
 process.env.NODE_ENV;
+process.env.NODE_ENV === "development";
+typeof window;
+typeof window === "object";
 ```
 
 ### Out
 
 ```js
 "development";
+true;
+"object";
+true;
 ```
 
 ## Installation
