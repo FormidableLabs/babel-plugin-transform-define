@@ -7,7 +7,7 @@ Inline arbitrary expressions and statically evaluate them if possible
 ### In
 
 ```js
-// assuming options are { "process.env.NODE_ENV": '"development"', "typeof window": '"object"' }
+// assuming options are { "process.env.NODE_ENV": "'development'", "typeof window": "'object'" }
 process.env.NODE_ENV;
 process.env.NODE_ENV === "development";
 typeof window;
@@ -38,8 +38,9 @@ $ npm install babel-plugin-transform-replace
 ```json
 {
   "plugins": ["transform-replace", {
-    "process.env.NODE_ENV": "production",
-    "typeof window": "object"
+    "__DEV__": false,
+    "process.env.NODE_ENV": "'production'",
+    "typeof window": "'object'"
   }]
 }
 ```
@@ -55,8 +56,9 @@ $ babel --plugins transform-replace script.js
 ```javascript
 require("babel-core").transform("code", {
   plugins: ["transform-replace", {
-    "process.env.NODE_ENV": "production",
-    "typeof window": "object"
+    "__DEV__": false,
+    "process.env.NODE_ENV": "'production'",
+    "typeof window": "'object'"
   }]
 });
 ```
