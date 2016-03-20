@@ -1,4 +1,4 @@
-# babel-plugin-transform-define
+# babel-plugin-transform-replace
 
 Inline arbitrary expressions and statically evaluate them if possible
 
@@ -7,7 +7,7 @@ Inline arbitrary expressions and statically evaluate them if possible
 ### In
 
 ```js
-// assuming options are { "process.env.NODE_ENV": "development", "typeof window": "object" }
+// assuming options are { "process.env.NODE_ENV": '"development"', "typeof window": '"object"' }
 process.env.NODE_ENV;
 process.env.NODE_ENV === "development";
 typeof window;
@@ -17,16 +17,16 @@ typeof window === "object";
 ### Out
 
 ```js
-"development";
+'development';
 true;
-"object";
+'object';
 true;
 ```
 
 ## Installation
 
 ```sh
-$ npm install babel-plugin-transform-define
+$ npm install babel-plugin-transform-replace
 ```
 
 ## Usage
@@ -37,7 +37,7 @@ $ npm install babel-plugin-transform-define
 
 ```json
 {
-  "plugins": ["transform-define", {
+  "plugins": ["transform-replace", {
     "process.env.NODE_ENV": "production",
     "typeof window": "object"
   }]
@@ -47,14 +47,14 @@ $ npm install babel-plugin-transform-define
 ### Via CLI
 
 ```sh
-$ babel --plugins transform-define script.js
+$ babel --plugins transform-replace script.js
 ```
 
 ### Via Node API
 
 ```javascript
 require("babel-core").transform("code", {
-  plugins: ["transform-define", {
+  plugins: ["transform-replace", {
     "process.env.NODE_ENV": "production",
     "typeof window": "object"
   }]

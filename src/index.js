@@ -1,24 +1,49 @@
-const hasOwnProperty = Object.prototype.hasOwnProperty
+function deepEqualNodes(a, b) {
+  return !Object.keys(a).find(function (key) {
+    if (b[key] === undefined || key === 'raw')
+      return false
 
-export default function ({ types: t }) {
+    if (a[key] instanceof Object)
+      return deepEqualNodes(a[key], b[key])
+
+    return a[key] !== b[key]
+  })
+}
+
+export default function ({ types: t, template }) {
   return {
     visitor: {
-      MemberExpression(path, state) {
-        for (const pattern in state.opts) {
-          if (hasOwnProperty.call(state.opts, pattern) && path.matchesPattern(pattern)) {
-            path.replaceWith(t.valueToNode(state.opts[pattern]))
+      Program(path, state) {
+        const replacements = state.opts
+        const visitor = {}
 
-            if (path.parentPath.isBinaryExpression()) {
-              const result = path.parentPath.evaluate()
+        Object.keys(replacements).forEach(function (key) {
+          const match = template(key)()
 
-              if (result.confident) {
-                path.parentPath.replaceWith(t.valueToNode(result.value))
+          if (!(match.type in visitor))
+            visitor[match.type] = { enter: [] }
+
+          visitor[match.type].push(function (path) {
+            if (deepEqualNodes(path.node, match)) {
+              path.replaceWith(
+                // TODO: template('"object"')() returns undefined so we don't
+                // have a good way of specifying strings as substitutes. Not
+                // sure if this is a bug in Babel or not.
+                template(replacements[key])() || t.valueToNode(eval(replacements[key]))
+              )
+
+              if (path.parentPath.isBinaryExpression()) {
+                const result = path.parentPath.evaluate()
+
+                if (result.confident) {
+                  path.parentPath.replaceWith(t.valueToNode(result.value))
+                }
               }
             }
+          })
+        })
 
-            break
-          }
-        }
+        path.traverse(visitor)
       }
     }
   }

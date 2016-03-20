@@ -1,5 +1,5 @@
 {
-  "name": "babel-plugin-transform-define",
+  "name": "babel-plugin-transform-replace",
   "version": "1.0.0",
   "description": "Statically replace and evaluate expressions in Babel",
   "author": "Michael Jackson",
