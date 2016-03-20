@@ -27,7 +27,7 @@ export default function ({ types: t, template }) {
 
           visitor[match.type] = visitor[match.type] || { enter: [] }
 
-          visitor[match.type].push(function (path) {
+          visitor[match.type].enter.push(function (path) {
             if (deepEqualNodes(path.node, match)) {
               path.replaceWith(replacement)
 
