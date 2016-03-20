@@ -20,24 +20,22 @@ export default function ({ types: t, template }) {
         Object.keys(replacements).forEach(function (key) {
           const match = template(key)()
 
-          if (!(match.type in visitor))
-            visitor[match.type] = { enter: [] }
+          // TODO: template('"object"')() returns undefined so we don't
+          // have a good way of specifying strings as substitutes. Not
+          // sure if this is a bug in Babel or not.
+          const replacement = template(replacements[key])() || t.valueToNode(eval(replacements[key]))
+
+          visitor[match.type] = visitor[match.type] || { enter: [] }
 
           visitor[match.type].push(function (path) {
             if (deepEqualNodes(path.node, match)) {
-              path.replaceWith(
-                // TODO: template('"object"')() returns undefined so we don't
-                // have a good way of specifying strings as substitutes. Not
-                // sure if this is a bug in Babel or not.
-                template(replacements[key])() || t.valueToNode(eval(replacements[key]))
-              )
+              path.replaceWith(replacement)
 
               if (path.parentPath.isBinaryExpression()) {
                 const result = path.parentPath.evaluate()
 
-                if (result.confident) {
+                if (result.confident)
                   path.parentPath.replaceWith(t.valueToNode(result.value))
-                }
               }
             }
           })
