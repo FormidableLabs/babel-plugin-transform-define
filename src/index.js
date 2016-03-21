@@ -1,48 +1,64 @@
-function deepEqualNodes(a, b) {
-  return !Object.keys(a).find(function (key) {
-    if (b[key] === undefined || key === 'raw')
-      return false
-
-    if (a[key] instanceof Object)
-      return deepEqualNodes(a[key], b[key])
-
-    return a[key] !== b[key]
-  })
-}
-
-export default function ({ types: t, template }) {
+export default function ({ types: t }) {
   return {
     visitor: {
-      Program(path, state) {
+
+      // process.env.NODE_ENV
+      MemberExpression(path, state) {
         const replacements = state.opts
-        const visitor = {}
+        const keys = Object.keys(replacements)
 
-        Object.keys(replacements).forEach(function (key) {
-          const match = template(key)()
+        for (let i = 0, len = keys.length; i < len; ++i) {
+          const key = keys[i]
 
-          // TODO: template('"object"')() returns undefined so we don't
-          // have a good way of specifying strings as substitutes. Not
-          // sure if this is a bug in Babel or not.
-          const replacement = template(replacements[key])() || t.valueToNode(eval(replacements[key]))
+          if (path.matchesPattern(key)) {
+            path.replaceWith(t.valueToNode(replacements[key]))
 
-          visitor[match.type] = visitor[match.type] || { enter: [] }
+            if (path.parentPath.isBinaryExpression()) {
+              const result = path.parentPath.evaluate()
 
-          visitor[match.type].enter.push(function (path) {
-            if (deepEqualNodes(path.node, match)) {
-              path.replaceWith(replacement)
-
-              if (path.parentPath.isBinaryExpression()) {
-                const result = path.parentPath.evaluate()
-
-                if (result.confident)
-                  path.parentPath.replaceWith(t.valueToNode(result.value))
-              }
+              if (result.confident)
+                path.parentPath.replaceWith(t.valueToNode(result.value))
             }
-          })
+
+            break
+          }
+        }
+      },
+
+      // typeof window
+      UnaryExpression(path, state) {
+        if (path.node.operator !== 'typeof')
+          return
+
+        const replacements = state.opts
+        const keys = Object.keys(replacements)
+        const typeofValues = {}
+
+        keys.forEach(function (key) {
+          if (key.substring(0, 7) === 'typeof ')
+            typeofValues[key.substring(7)] = replacements[key]
         })
 
-        path.traverse(visitor)
+        const argumentNames = Object.keys(typeofValues)
+
+        for (let i = 0, len = argumentNames.length; i < len; ++i) {
+          const argumentName = argumentNames[i]
+
+          if (path.node.argument.name === argumentName) {
+            path.replaceWith(t.valueToNode(typeofValues[argumentName]))
+
+            if (path.parentPath.isBinaryExpression()) {
+              const result = path.parentPath.evaluate()
+
+              if (result.confident)
+                path.parentPath.replaceWith(t.valueToNode(result.value))
+            }
+
+            break
+          }
+        }
       }
+
     }
   }
 }
