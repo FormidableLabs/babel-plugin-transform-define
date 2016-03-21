@@ -1,7 +1,7 @@
 {
-  "name": "babel-plugin-transform-replace",
+  "name": "babel-plugin-transform-define",
   "version": "1.0.0",
-  "description": "Statically replace and evaluate expressions in Babel",
+  "description": "Babel plugin that replaces member expressions and typeof statements with strings",
   "author": "Michael Jackson",
   "license": "MIT",
   "main": "lib",

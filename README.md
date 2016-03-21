@@ -1,13 +1,13 @@
-# babel-plugin-transform-replace
+# babel-plugin-transform-define
 
-Inline arbitrary expressions and statically evaluate them if possible
+Replace member expressions and typeof statements with strings and statically evaluate them if possible
 
 ## Example
 
 ### In
 
 ```js
-// assuming options are { "process.env.NODE_ENV": "'development'", "typeof window": "'object'" }
+// assuming options are { "process.env.NODE_ENV": "development", "typeof window": "object" }
 process.env.NODE_ENV;
 process.env.NODE_ENV === "development";
 typeof window;
@@ -26,7 +26,7 @@ true;
 ## Installation
 
 ```sh
-$ npm install babel-plugin-transform-replace
+$ npm install babel-plugin-transform-define
 ```
 
 ## Usage
@@ -37,10 +37,9 @@ $ npm install babel-plugin-transform-replace
 
 ```json
 {
-  "plugins": ["transform-replace", {
-    "__DEV__": false,
-    "process.env.NODE_ENV": "'production'",
-    "typeof window": "'object'"
+  "plugins": ["transform-define", {
+    "process.env.NODE_ENV": "production",
+    "typeof window": "object"
   }]
 }
 ```
@@ -48,17 +47,16 @@ $ npm install babel-plugin-transform-replace
 ### Via CLI
 
 ```sh
-$ babel --plugins transform-replace script.js
+$ babel --plugins transform-define script.js
 ```
 
 ### Via Node API
 
 ```javascript
 require("babel-core").transform("code", {
-  plugins: ["transform-replace", {
-    "__DEV__": false,
-    "process.env.NODE_ENV": "'production'",
-    "typeof window": "'object'"
+  plugins: ["transform-define", {
+    "process.env.NODE_ENV": "production",
+    "typeof window": "object"
   }]
 });
 ```
