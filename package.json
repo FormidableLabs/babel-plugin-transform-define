@@ -16,5 +16,9 @@
   },
   "babel": {
     "presets": [ "es2015" ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mjackson/babel-plugin-transform-define.git"
   }
 }
