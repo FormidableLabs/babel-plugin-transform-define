@@ -1,12 +1,13 @@
 {
   "name": "babel-plugin-transform-define",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Babel plugin that replaces member expressions and typeof statements with strings",
   "author": "Michael Jackson",
   "license": "MIT",
   "main": "lib",
   "scripts": {
     "build": "rimraf lib && babel ./modules -d lib",
+    "release": "node ./scripts/release.js",
     "prepublish": "npm run build"
   },
   "dependencies": {
@@ -22,5 +23,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mjackson/babel-plugin-transform-define.git"
+  },
+  "devDependencies": {
+    "readline-sync": "^1.4.1"
   }
 }
