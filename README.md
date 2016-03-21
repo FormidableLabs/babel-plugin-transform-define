@@ -1,6 +1,6 @@
 # babel-plugin-transform-define
 
-Replace member expressions and typeof statements with strings and statically evaluate them if possible
+Replace member expressions and typeof statements with strings and statically evaluate them if possible, like [webpack's `DefinePlugin`](https://github.com/webpack/docs/wiki/list-of-plugins#defineplugin) for Babel.
 
 ## Example
 
