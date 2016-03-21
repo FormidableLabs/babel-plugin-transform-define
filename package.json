@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "lib",
   "scripts": {
-    "build": "rimraf lib && babel ./src -d lib",
+    "build": "rimraf lib && babel ./modules -d lib",
     "prepublish": "npm run build"
   },
   "dependencies": {
@@ -15,7 +15,9 @@
     "rimraf": "^2.5.2"
   },
   "babel": {
-    "presets": [ "es2015" ]
+    "presets": [
+      "es2015"
+    ]
   },
   "repository": {
     "type": "git",
