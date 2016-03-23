@@ -44,6 +44,16 @@ $ npm install babel-plugin-transform-define
 }
 ```
 
+You can also declare your defines via a module:
+
+```json
+{
+  "plugins": ["transform-define", "./path/to/defines"]
+}
+```
+
+The plugin will load the module at that path and use any values exported by it as replacements.
+
 ### Via CLI
 
 ```sh
