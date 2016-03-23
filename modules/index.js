@@ -1,10 +1,12 @@
+import { expandReplacements } from './config'
+
 export default function ({ types: t }) {
   return {
     visitor: {
 
       // process.env.NODE_ENV
       MemberExpression(path, state) {
-        const replacements = state.opts
+        const replacements = expandReplacements(state.opts)
         const keys = Object.keys(replacements)
 
         for (let i = 0, len = keys.length; i < len; ++i) {
