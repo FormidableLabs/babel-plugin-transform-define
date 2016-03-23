@@ -10,11 +10,6 @@
     "release": "node ./scripts/release.js",
     "prepublish": "npm run build"
   },
-  "dependencies": {
-    "babel-cli": "^6.6.5",
-    "babel-preset-es2015": "^6.6.0",
-    "rimraf": "^2.5.2"
-  },
   "babel": {
     "presets": [
       "es2015"
@@ -25,6 +20,9 @@
     "url": "https://github.com/mjackson/babel-plugin-transform-define.git"
   },
   "devDependencies": {
-    "readline-sync": "^1.4.1"
+    "babel-cli": "^6.6.5",
+    "babel-preset-es2015": "^6.6.0",
+    "readline-sync": "^1.4.1",
+    "rimraf": "^2.5.2"
   }
 }
