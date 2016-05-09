@@ -1,19 +1,21 @@
-import * as fs from 'fs'
-import * as path from 'path'
+import * as fs from 'fs';
+import * as path from 'path';
+import childProcess from 'child_process';
 
 let projectRoot;
-const cachedReplacements = {}
+const cachedReplacements = {};
+
 /**
  * opts can either be an object of expressions and values to replace them with,
  * or it can be a path of a module to load that exports expressions and values.
  */
 export function expandReplacements(replacementsOrModulePath) {
   if (typeof replacementsOrModulePath !== 'string') {
-    return replacementsOrModulePath
+    return replacementsOrModulePath;
   }
-  const modulePath = replacementsOrModulePath
+  const modulePath = replacementsOrModulePath;
   if (cachedReplacements[modulePath]) {
-    return cachedReplacements[modulePath]
+    return cachedReplacements[modulePath];
   }
   if (!projectRoot) {
     projectRoot = findProjectRoot();
@@ -25,11 +27,11 @@ export function expandReplacements(replacementsOrModulePath) {
   let replacements = require(path.resolve(projectRoot, modulePath))
   // Support es6 style modules with default exports.
   if (replacements.__esModule && replacements.default) {
-    replacements = replacements.default
+    replacements = replacements.default;
   }
 
-  cachedReplacements[modulePath] = replacements
-  return cachedReplacements[modulePath]
+  cachedReplacements[modulePath] = replacements;
+  return cachedReplacements[modulePath];
 }
 
 /**
@@ -44,10 +46,10 @@ function findProjectRoot() {
   while (loc !== (loc = path.dirname(loc))) {
     const configLoc = path.join(loc, '.babelrc');
     if (fs.statSync(configLoc).isFile()) {
-      return path.dirname(configLoc)
+      return path.dirname(configLoc);
     }
 
-    const pkgLoc = path.join(loc, 'package.json')
+    const pkgLoc = path.join(loc, 'package.json');
     if (fs.statSync(pkgLoc).isFile()) {
       try {
         if ('babel' in require(pkgLoc)) {
@@ -61,5 +63,5 @@ function findProjectRoot() {
 
   // We shouldn't be able to get here; but just in case:
   console.warn('Unable to determine project root; assuming it is the current dir');
-  return process.cwd()
+  return process.cwd();
 }
