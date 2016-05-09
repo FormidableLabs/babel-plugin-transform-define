@@ -26,8 +26,5 @@
   },
   "devDependencies": {
     "readline-sync": "^1.4.1"
-  },
-  "peerDependencies": {
-    "babel-register": "^6.6.0"
   }
 }
