@@ -21,10 +21,15 @@ export function expandReplacements(replacementsOrModulePath) {
     projectRoot = findProjectRoot();
   }
 
-  // Allow Babel-parsed modules.
-  require('babel-register')
+  const fullModulePath = path.resolve(projectRoot, modulePath);
+  let replacements = JSON.parse(
+    // Shell out before requiring the config module. Otherwise, you end up with a chicken-and-egg
+    // where babel is not yet fully initialized and the config module silently comes back empty
+    childProcess.execSync(`node -e "console.log(JSON.stringify(require('${fullModulePath}')))"`, {
+      encoding: 'utf-8',
+    })
+  );
 
-  let replacements = require(path.resolve(projectRoot, modulePath))
   // Support es6 style modules with default exports.
   if (replacements.__esModule && replacements.default) {
     replacements = replacements.default;
