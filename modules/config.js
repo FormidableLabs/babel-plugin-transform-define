@@ -52,9 +52,7 @@ function findProjectRoot() {
     const pkgLoc = path.join(loc, 'package.json');
     if (fs.statSync(pkgLoc).isFile()) {
       try {
-        if ('babel' in require(pkgLoc)) {
-          return path.dirname(pkgLoc)
-        }
+        return path.dirname(pkgLoc);
       } catch (error) {
         // silent.
       }
