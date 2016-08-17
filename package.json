@@ -33,7 +33,8 @@
     "build": "rimraf lib && babel ./modules -d lib",
     "lint": "eslint modules",
     "prepublish": "npm run build",
-    "release": "node ./scripts/release.js"
+    "release": "node ./scripts/release.js",
+    "test": "npm run lint"
   },
 
   "engines":{
