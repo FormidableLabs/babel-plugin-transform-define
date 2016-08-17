@@ -31,9 +31,9 @@
 
   "scripts": {
     "build": "rimraf lib && babel ./modules -d lib",
-    "release": "node ./scripts/release.js",
+    "lint": "eslint modules",
     "prepublish": "npm run build",
-    "lint": "eslint ."
+    "release": "node ./scripts/release.js"
   },
 
   "engines":{
