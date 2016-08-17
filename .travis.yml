@@ -5,6 +5,8 @@ node_js:
   - "5"
   - "6"
 
+script: npm run check
+
 branches:
   only:
     - master

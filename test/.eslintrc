@@ -1,0 +1,7 @@
+---
+"extends":
+  - "formidable/configurations/es6-node-test"
+
+rules:
+  no-magic-numbers: OFF
+  max-statements: OFF
