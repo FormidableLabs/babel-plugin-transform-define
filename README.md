@@ -37,10 +37,12 @@ $ npm install babel-plugin-transform-define
 
 ```json
 {
-  "plugins": ["transform-define", {
-    "process.env.NODE_ENV": "production",
-    "typeof window": "object"
-  }]
+  "plugins": [
+    ["transform-define", {
+      "process.env.NODE_ENV": "production",
+      "typeof window": "object"
+    }]
+  ]
 }
 ```
 
@@ -54,9 +56,11 @@ $ babel --plugins transform-define script.js
 
 ```javascript
 require("babel-core").transform("code", {
-  plugins: ["transform-define", {
-    "process.env.NODE_ENV": "production",
-    "typeof window": "object"
-  }]
+	"plugins": [
+    ["transform-define", {
+      "process.env.NODE_ENV": "production",
+      "typeof window": "object"
+    }]
+  ]
 });
 ```
