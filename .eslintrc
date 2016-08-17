@@ -1,3 +1,7 @@
 ---
 "extends":
   - "formidable/configurations/es6"
+
+rules:
+  no-magic-numbers: OFF
+  max-statements: OFF
