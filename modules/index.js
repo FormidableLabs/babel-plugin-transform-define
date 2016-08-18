@@ -26,6 +26,29 @@ export default function ({ types: t }) {
         }
       },
 
+      Identifier(path, state) {
+        const replacements = state.opts;
+        const keys = Object.keys(replacements);
+
+        for (let i = 0, len = keys.length; i < len; ++i) {
+          const key = keys[i];
+
+          if (path.node.name === key) {
+            path.replaceWith(t.valueToNode(replacements[key]));
+
+            if (path.parentPath.isBinaryExpression()) {
+              const result = path.parentPath.evaluate();
+
+              if (result.confident) {
+                path.parentPath.replaceWith(t.valueToNode(result.value));
+              }
+            }
+
+            break;
+          }
+        }
+      },
+
       // typeof window
       UnaryExpression(path, state) {
         if (path.node.operator !== "typeof") {
