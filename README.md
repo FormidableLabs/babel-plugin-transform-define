@@ -37,6 +37,17 @@ npm install babel-plugin-transform-define
 }
 ```
 
+**.babelrc**
+
+```json
+{
+  "plugins": [
+    ["transform-define", "./path/to/config/file.js"]
+  ]
+}
+```
+_Note_: Paths are relative to `process.cwd()``
+
 ## Reference Documentation
 
 `babel-plugin-transform-define` can transform certain types of code as a babel transformation.

@@ -51,4 +51,12 @@ describe("babel-plugin-transform-define", () => {
       path.join(__dirname, "./identifier/actual.js"),
       path.join(__dirname, "./identifier/expected.js"), babelOpts);
   });
+
+  it("should transform code from config in a file", () => {
+    const babelOpts = getBabelOps("./test/load-config-file/config.js");
+
+    return assertTransform(
+      path.join(__dirname, "./load-config-file/actual.js"),
+      path.join(__dirname, "./load-config-file/expected.js"), babelOpts);
+  });
 });
