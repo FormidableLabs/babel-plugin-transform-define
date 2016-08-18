@@ -34,7 +34,7 @@
 
   "scripts": {
     "build": "babel ./modules -d lib",
-    "check": "npm run test && npm run lint",
+    "check": "npm run clean && npm run build && npm run test && npm run lint",
     "clean": "rimraf lib/",
     "lint": "eslint modules",
     "prepublish": "npm run clean && npm run build",
