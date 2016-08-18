@@ -13,7 +13,7 @@
 </p>
 
 <h4 align="center">
-  Compile time code replacement for babel similar to Webpack's [`DefinePlugin`](https://github.com/webpack/docs/wiki/list-of-plugins#defineplugin)
+  Compile time code replacement for babel similar to Webpack's <a href='https://github.com/webpack/docs/wiki/list-of-plugins#defineplugin'>DefinePlugin</a>
 </h4>
 
 ***
