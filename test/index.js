@@ -6,7 +6,8 @@ const BABEL_OPTIONS = {
   "presets": ["es2015"],
   "plugins": [
     [path.resolve(__dirname, "../lib/index.js"), {
-      "process.env.NODE_ENV": "development"
+      "process.env.NODE_ENV": "development",
+      "typeof window": "object"
     }]
   ]
 };
@@ -22,5 +23,11 @@ describe("babel-plugin-transform-define", () => {
     return assertTransform(
       path.join(__dirname, "./member-expression/actual.js"),
       path.join(__dirname, "./member-expression/expected.js"), BABEL_OPTIONS);
+  });
+
+  it("should transform Unary Expressions", () => {
+    return assertTransform(
+      path.join(__dirname, "./unary-expression/actual.js"),
+      path.join(__dirname, "./unary-expression/expected.js"), BABEL_OPTIONS);
   });
 });
