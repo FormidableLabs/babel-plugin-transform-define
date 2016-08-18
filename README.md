@@ -56,7 +56,7 @@ npm install babel-plugin-transform-define
 
 *Source Code*
 ```js
-Version;
+VERSION;
 
 window.__MY_COMPANY__ = {
   version: VERSION
