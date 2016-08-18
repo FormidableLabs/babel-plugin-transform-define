@@ -1,37 +1,28 @@
-# babel-plugin-transform-define
+<h1 align="center">babel-plugin-transform-define</h1>
 
-Replace member expressions and typeof statements with strings and statically evaluate them if possible, like [webpack's `DefinePlugin`](https://github.com/webpack/docs/wiki/list-of-plugins#defineplugin) for Babel.
+<p align="center">
+  <a title='Build Status' href="https://raw.githubusercontent.com/FormidableLabs/babel-plugin-transform-define/master/LICENSE">
+    <img src='https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square' />
+  </a>
+  <a href="https://badge.fury.io/js/babel-plugin-transform-define">
+    <img src="https://badge.fury.io/js/babel-plugin-transform-define.svg" alt="npm version" height="18">
+  </a>
+  <a href='http://travis-ci.org/FormidableLabs/babel-plugin-transform-define'>
+    <img src='https://secure.travis-ci.org/FormidableLabs/babel-plugin-transform-define.svg?branch=master' />
+  </a>
+</p>
 
-## Example
+<h4 align="center">
+  Compile time code replacement for babel similar to Webpack's [`DefinePlugin`](https://github.com/webpack/docs/wiki/list-of-plugins#defineplugin)
+</h4>
 
-### In
+***
 
-```js
-// assuming options are { "process.env.NODE_ENV": "development", "typeof window": "object" }
-process.env.NODE_ENV;
-process.env.NODE_ENV === "development";
-typeof window;
-typeof window === "object";
+## Quick Start
+
+```shell
+npm install babel-plugin-transform-define
 ```
-
-### Out
-
-```js
-'development';
-true;
-'object';
-true;
-```
-
-## Installation
-
-```sh
-$ npm install babel-plugin-transform-define
-```
-
-## Usage
-
-### Via `.babelrc` (Recommended)
 
 **.babelrc**
 
@@ -46,21 +37,96 @@ $ npm install babel-plugin-transform-define
 }
 ```
 
-### Via CLI
+## Reference Documentation
 
-```sh
-$ babel --plugins transform-define script.js
+`babel-plugin-transform-define` can transform certain types of code as a babel transformation.
+
+#####`Identifiers`
+
+*.babelrc*
+```json
+{
+  "plugins": [
+    ["transform-define", {
+      "VERSION": "1.0.0",
+    }]
+  ]
+}
 ```
 
-### Via Node API
+*Source Code*
+```js
+Version;
 
-```javascript
-require("babel-core").transform("code", {
-	"plugins": [
+window.__MY_COMPANY__ = {
+  version: VERSION
+};
+```
+
+*Output Code*
+```js
+"1.0.0";
+
+window.__MY_COMPANY__ = {
+  version: "1.0.0"
+};
+```
+***
+#####`Member Expressions`
+
+*.babelrc*
+```json
+{
+  "plugins": [
     ["transform-define", {
-      "process.env.NODE_ENV": "production",
+      "process.env.NODE_ENV": "production"
+    }]
+  ]
+}
+```
+
+*Source Code*
+```js
+if (process.env.NODE_ENV === production) {
+  console.log(true);
+}
+```
+
+*Output Code*
+```js
+if (true) {
+  console.log(true);
+}
+```
+***
+#####`Unary Expressions`
+
+*.babelrc*
+```json
+{
+  "plugins": [
+    ["transform-define", {
       "typeof window": "object"
     }]
   ]
-});
+}
 ```
+
+*Source Code*
+```js
+typeof window;
+typeof window === "object";
+```
+
+*Output Code*
+```js
+'object';
+true;
+```
+
+
+***
+
+## License
+
+[MIT License](http://opensource.org/licenses/MIT)
