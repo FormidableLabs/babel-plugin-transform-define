@@ -1,10 +1,16 @@
 const fs = require("fs");
 const path = require("path");
 
+/**
+ *  `babel-plugin-transfor-define` take options of two types: static config and a path to a file that
+ *  can define config in any way a user sees fit. getReplacements takes the options and will either
+ *  return the static config or get the dynamic config from disk
+ * @param  {Object|String}  configOptions  configuration to parse
+ * @return {Object}  replacement object
+ */
 const getReplacements = (configOptions) => {
   if (typeof configOptions === "object") { return configOptions; }
 
-  // if opts are not an object, try to require the filepath
   try {
     const fullPath = path.join(process.cwd(), configOptions);
     fs.accessSync(fullPath, fs.F_OK);
@@ -15,62 +21,78 @@ const getReplacements = (configOptions) => {
   }
 };
 
+/**
+ * Replace a node with a given value. If the replacement results in a BinaryExpression, it will be
+ * evaluated. For example, if the result of the replacement is `var x = "production" === "production"`
+ * The evaluation will make a second replacement resulting in `var x = true`
+ * @param  {function}   replaceFn    The function used to replace the node
+ * @param  {babelNode}  nodePath     The node to evaluate
+ * @param  {*}          replacement  The value the node will be replaced with
+ * @return {undefined}
+ */
+const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
+  nodePath.replaceWith(replaceFn(replacement));
+
+  if (nodePath.parentPath.isBinaryExpression()) {
+    const result = nodePath.parentPath.evaluate();
+
+    if (result.confident) {
+      nodePath.parentPath.replaceWith(replaceFn(result.value));
+    }
+  }
+};
+
+/**
+ * Get the first value in the `obj` that causes the comparator to return true
+ * @param  {Object}    obj         The object to search for replacements
+ * @param  {function}  comparator  The function used to evaluate whether a node matches a value in `obj`
+ * @param  {[type]}    nodePath    The node to evaluate
+ * @return {*}  The first matching value to replace OR null
+ */
+const getFirstReplacementValueForNode = (obj, comparator, nodePath) => {
+  const replacementKey = Object.keys(obj)
+    .filter((value) => comparator(nodePath, value))
+    .shift();
+  return obj[replacementKey] || null;
+};
+
+/**
+ * Run the transformation over a node
+ * @param  {Object}     replacements The object to search for replacements
+ * @param  {babelNode}  nodePath     The node to evaluate
+ * @param  {function}   replaceFn    The function used to replace the node
+ * @param  {function}   comparator   The function used to evaluate whether a node matches a value in `replacements`
+ * @return {undefined}
+ */
+const processNode = (replacements, nodePath, replaceFn, comparator) => { // eslint-disable-line
+  const replacement = getFirstReplacementValueForNode(replacements, comparator, nodePath);
+  if (replacement) {
+    replaceAndEvaluateNode(replaceFn, nodePath, replacement);
+  }
+};
+
+const memberExpressionComparator = (nodePath, value) => nodePath.matchesPattern(value);
+const identifierComparator = (nodePath, value) => nodePath.node.name === value;
+const unaryExpressionComparator = (nodePath, value) => nodePath.node.argument.name === value;
+
 export default function ({ types: t }) {
   return {
     visitor: {
 
-      // process.env.NODE_ENV
+      // process.env.NODE_ENV;
       MemberExpression(nodePath, state) {
-        const replacements = getReplacements(state.opts);
-        const keys = Object.keys(replacements);
-
-        for (let i = 0, len = keys.length; i < len; ++i) {
-          const key = keys[i];
-
-          if (nodePath.matchesPattern(key)) {
-            nodePath.replaceWith(t.valueToNode(replacements[key]));
-
-            if (nodePath.parentPath.isBinaryExpression()) {
-              const result = nodePath.parentPath.evaluate();
-
-              if (result.confident) {
-                nodePath.parentPath.replaceWith(t.valueToNode(result.value));
-              }
-            }
-
-            break;
-          }
-        }
+        processNode(getReplacements(state.opts), nodePath, t.valueToNode, memberExpressionComparator);
       },
 
+      // const x = { version: VERSION };
       Identifier(nodePath, state) {
-        const replacements = getReplacements(state.opts);
-        const keys = Object.keys(replacements);
-
-        for (let i = 0, len = keys.length; i < len; ++i) {
-          const key = keys[i];
-
-          if (nodePath.node.name === key) {
-            nodePath.replaceWith(t.valueToNode(replacements[key]));
-
-            if (nodePath.parentPath.isBinaryExpression()) {
-              const result = nodePath.parentPath.evaluate();
-
-              if (result.confident) {
-                nodePath.parentPath.replaceWith(t.valueToNode(result.value));
-              }
-            }
-
-            break;
-          }
-        }
+        processNode(getReplacements(state.opts), nodePath, t.valueToNode, identifierComparator);
       },
 
       // typeof window
       UnaryExpression(nodePath, state) {
-        if (nodePath.node.operator !== "typeof") {
-          return;
-        }
+        if (nodePath.node.operator !== "typeof") { return; }
+
         const replacements = getReplacements(state.opts);
         const keys = Object.keys(replacements);
         const typeofValues = {};
@@ -81,25 +103,7 @@ export default function ({ types: t }) {
           }
         });
 
-        const argumentNames = Object.keys(typeofValues);
-
-        for (let i = 0, len = argumentNames.length; i < len; ++i) {
-          const argumentName = argumentNames[i];
-
-          if (nodePath.node.argument.name === argumentName) {
-            nodePath.replaceWith(t.valueToNode(typeofValues[argumentName]));
-
-            if (nodePath.parentPath.isBinaryExpression()) {
-              const result = nodePath.parentPath.evaluate();
-
-              if (result.confident) {
-                nodePath.parentPath.replaceWith(t.valueToNode(result.value));
-              }
-            }
-
-            break;
-          }
-        }
+        processNode(typeofValues, nodePath, t.valueToNode, unaryExpressionComparator);
       }
 
     }
