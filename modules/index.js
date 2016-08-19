@@ -44,9 +44,9 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
 
 /**
  * Get the first value in the `obj` that causes the comparator to return true
- * @param  {Object}    obj         The object to search for replacements
- * @param  {function}  comparator  The function used to evaluate whether a node matches a value in `obj`
- * @param  {[type]}    nodePath    The node to evaluate
+ * @param  {Object}     obj         The object to search for replacements
+ * @param  {function}   comparator  The function used to evaluate whether a node matches a value in `obj`
+ * @param  {babelNode}  nodePath    The node to evaluate
  * @return {*}  The first matching value to replace OR null
  */
 const getFirstReplacementValueForNode = (obj, comparator, nodePath) => {

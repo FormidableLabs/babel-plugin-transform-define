@@ -98,7 +98,7 @@ window.__MY_COMPANY__ = {
 
 *Source Code*
 ```js
-if (process.env.NODE_ENV === production) {
+if (process.env.NODE_ENV === "production") {
   console.log(true);
 }
 ```
