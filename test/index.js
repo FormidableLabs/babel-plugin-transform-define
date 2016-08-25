@@ -3,15 +3,15 @@
 const assertTransform = require("assert-transform");
 const babel = require("babel-core");
 const path = require("path");
+const assert = require("assert");
+
+const babelPluginTransformDefine = require("../lib/index.js");
 
 const getBabelOps = (pluginOps) => {
   return {
     "presets": ["es2015"],
     "plugins": [
-      [path.resolve(__dirname, "../lib/index.js"), pluginOps || {
-        // TODO: get rid of this when you fix the bug that prevents this from running with no config
-        "test": true
-      }]
+      [path.resolve(__dirname, "../lib/index.js"), pluginOps]
     ]
   };
 };
@@ -23,58 +23,87 @@ describe("babel-plugin-transform-define", () => {
     babel.transform("const x = 1;", getBabelOps());
   });
 
-  describe("Member Expressions", () => {
-    it("should transform with config defined by String keys", () => {
-      const babelOpts = getBabelOps({
-        "process.env.NODE_ENV": "development"
+  describe("transformation tests", () => {
+    describe("Member Expressions", () => {
+      it("should transform with config defined by String keys", () => {
+        const babelOpts = getBabelOps({
+          "process.env.NODE_ENV": "development"
+        });
+
+        return assertTransform(
+          path.join(__dirname, "./member-expression/actual.js"),
+          path.join(__dirname, "./member-expression/expected.js"), babelOpts);
       });
 
-      return assertTransform(
-        path.join(__dirname, "./member-expression/actual.js"),
-        path.join(__dirname, "./member-expression/expected.js"), babelOpts);
-    });
-
-    it("should transform with config defined by an Object", () => {
-      const babelOpts = getBabelOps({
-        "process": {
-          env: {
-            NODE_ENV: "development"
+      it("should transform with config defined by an Object", () => {
+        const babelOpts = getBabelOps({
+          "process": {
+            env: {
+              NODE_ENV: "development"
+            }
           }
-        }
+        });
+
+        return assertTransform(
+          path.join(__dirname, "./member-expression/actual.js"),
+          path.join(__dirname, "./member-expression/expected.js"), babelOpts);
+      });
+    });
+
+    it("should transform Unary Expressions", () => {
+      const babelOpts = getBabelOps({
+        "typeof window": "object"
       });
 
       return assertTransform(
-        path.join(__dirname, "./member-expression/actual.js"),
-        path.join(__dirname, "./member-expression/expected.js"), babelOpts);
+        path.join(__dirname, "./unary-expression/actual.js"),
+        path.join(__dirname, "./unary-expression/expected.js"), babelOpts);
+    });
+
+    it("should transform Identifiers", () => {
+      const babelOpts = getBabelOps({
+        "VERSION": "1.0.0",
+        "PRODUCTION": true
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./identifier/actual.js"),
+        path.join(__dirname, "./identifier/expected.js"), babelOpts);
+    });
+
+    it("should transform code from config in a file", () => {
+      const babelOpts = getBabelOps("./test/load-config-file/config.js");
+
+      return assertTransform(
+        path.join(__dirname, "./load-config-file/actual.js"),
+        path.join(__dirname, "./load-config-file/expected.js"), babelOpts);
     });
   });
 
-  it("should transform Unary Expressions", () => {
-    const babelOpts = getBabelOps({
-      "typeof window": "object"
+  describe("unit tests", () => {
+    describe("getSortedObjectPaths", () => {
+      it("should return an array", () => {
+        let objectPaths = babelPluginTransformDefine.getSortedObjectPaths(null);
+        assert(Array.isArray(objectPaths));
+        objectPaths = babelPluginTransformDefine.getSortedObjectPaths(undefined);
+        assert(Array.isArray(objectPaths));
+        objectPaths = babelPluginTransformDefine.getSortedObjectPaths();
+        assert(Array.isArray(objectPaths));
+        objectPaths = babelPluginTransformDefine.getSortedObjectPaths({});
+        assert(Array.isArray(objectPaths));
+        objectPaths = babelPluginTransformDefine.getSortedObjectPaths({ process: "env" });
+        assert(Array.isArray(objectPaths));
+      });
+      it("should return a complete list of paths", () => {
+        const obj = { process: { env: { NODE_ENV: "development" } } };
+        const objectPaths = babelPluginTransformDefine.getSortedObjectPaths(obj);
+        assert.deepEqual(objectPaths, [ "process.env.NODE_ENV", "process.env", "process" ]);
+      });
+      it("should return a list sorted by length", () => {
+        const obj = { process: { env: { NODE_ENV: "development" } } };
+        const objectPaths = babelPluginTransformDefine.getSortedObjectPaths(obj);
+        assert.deepEqual(objectPaths, objectPaths.sort((elem) => elem.length));
+      });
     });
-
-    return assertTransform(
-      path.join(__dirname, "./unary-expression/actual.js"),
-      path.join(__dirname, "./unary-expression/expected.js"), babelOpts);
-  });
-
-  it("should transform Identifiers", () => {
-    const babelOpts = getBabelOps({
-      "VERSION": "1.0.0",
-      "PRODUCTION": true
-    });
-
-    return assertTransform(
-      path.join(__dirname, "./identifier/actual.js"),
-      path.join(__dirname, "./identifier/expected.js"), babelOpts);
-  });
-
-  it("should transform code from config in a file", () => {
-    const babelOpts = getBabelOps("./test/load-config-file/config.js");
-
-    return assertTransform(
-      path.join(__dirname, "./load-config-file/actual.js"),
-      path.join(__dirname, "./load-config-file/expected.js"), babelOpts);
   });
 });

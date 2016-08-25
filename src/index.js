@@ -15,6 +15,8 @@ const get = require("lodash.get");
  * @return {Array}  Sorted list of non-cyclic paths into obj
  */
 export const getSortedObjectPaths = (obj) => {
+  if (!obj) { return []; }
+
   return traverse(obj)
     .paths()
     .filter((arr) => arr.length)
