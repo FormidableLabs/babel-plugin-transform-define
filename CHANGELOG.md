@@ -1,3 +1,18 @@
+## 1.2.0 (2016-08-25)
+
+#### User Facing Changes
+
+* Add the ability define config as a deep object
+* Add a Code of Conduct
+
+#### Internal
+
+* Remove release scripts
+* Rename `./modules` to `./src`
+* Add keywords and contributors to `package.json`
+* Remove author from `package.json` in favor of contributors
+* Expand test coverage
+
 ## 1.1.0 (2016-08-19)
 
 #### User Facing Changes
