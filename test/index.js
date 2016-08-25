@@ -1,3 +1,5 @@
+"use strict";
+
 const assertTransform = require("assert-transform");
 const babel = require("babel-core");
 const path = require("path");
@@ -21,14 +23,30 @@ describe("babel-plugin-transform-define", () => {
     babel.transform("const x = 1;", getBabelOps());
   });
 
-  it("should transform Member Expressions", () => {
-    const babelOpts = getBabelOps({
-      "process.env.NODE_ENV": "development"
+  describe("Member Expressions", () => {
+    it("should transform with config defined by String keys", () => {
+      const babelOpts = getBabelOps({
+        "process.env.NODE_ENV": "development"
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./member-expression/actual.js"),
+        path.join(__dirname, "./member-expression/expected.js"), babelOpts);
     });
 
-    return assertTransform(
-      path.join(__dirname, "./member-expression/actual.js"),
-      path.join(__dirname, "./member-expression/expected.js"), babelOpts);
+    it("should transform with config defined by an Object", () => {
+      const babelOpts = getBabelOps({
+        "process": {
+          env: {
+            NODE_ENV: "development"
+          }
+        }
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./member-expression/actual.js"),
+        path.join(__dirname, "./member-expression/expected.js"), babelOpts);
+    });
   });
 
   it("should transform Unary Expressions", () => {
