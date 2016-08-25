@@ -3,7 +3,6 @@
   "description"     : "Babel plugin that replaces member expressions and typeof statements with strings",
 
   "version"         : "1.1.0",
-  "author"          : "Michael Jackson",
   "contributors": [
     "Eric Baer <me@ericbaer.com> (https://github.com/baer)",
     "Michael Jackson <mjijackson@gmail.com> (https://github.com/mjackson)"
