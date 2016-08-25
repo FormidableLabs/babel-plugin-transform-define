@@ -1,5 +1,26 @@
 const fs = require("fs");
 const path = require("path");
+const traverse = require("traverse");
+const get = require("lodash.get");
+
+/**
+ * Return an Array of every possible non-cyclic path in the object as a dot separated string sorted
+ * by length.
+ *
+ * Example:
+ * getSortedObjectPaths({ process: { env: { NODE_ENV: "development" } } });
+ * // => [ "process.env.NODE_ENV", "process.env" "process" ]
+ *
+ * @param  {Object}  obj  A plain JavaScript Object
+ * @return {Array}  Sorted list of non-cyclic paths into obj
+ */
+export const getSortedObjectPaths = (obj) => {
+  return traverse(obj)
+    .paths()
+    .filter((arr) => arr.length)
+    .map((arr) => arr.join("."))
+    .sort((elem) => elem.length);
+};
 
 /**
  *  `babel-plugin-transfor-define` take options of two types: static config and a path to a file that
@@ -50,10 +71,10 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
  * @return {*}  The first matching value to replace OR null
  */
 const getFirstReplacementValueForNode = (obj, comparator, nodePath) => {
-  const replacementKey = Object.keys(obj)
+  const replacementKey = getSortedObjectPaths(obj)
     .filter((value) => comparator(nodePath, value))
     .shift();
-  return obj[replacementKey] || null;
+  return get(obj, replacementKey) || null;
 };
 
 /**
@@ -67,6 +88,7 @@ const getFirstReplacementValueForNode = (obj, comparator, nodePath) => {
 const processNode = (replacements, nodePath, replaceFn, comparator) => { // eslint-disable-line
   const replacement = getFirstReplacementValueForNode(replacements, comparator, nodePath);
   if (replacement) {
+    nodePath.stop();
     replaceAndEvaluateNode(replaceFn, nodePath, replacement);
   }
 };
