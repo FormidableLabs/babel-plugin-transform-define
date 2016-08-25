@@ -90,7 +90,6 @@ const getFirstReplacementValueForNode = (obj, comparator, nodePath) => {
 const processNode = (replacements, nodePath, replaceFn, comparator) => { // eslint-disable-line
   const replacement = getFirstReplacementValueForNode(replacements, comparator, nodePath);
   if (replacement) {
-    nodePath.stop();
     replaceAndEvaluateNode(replaceFn, nodePath, replacement);
   }
 };
