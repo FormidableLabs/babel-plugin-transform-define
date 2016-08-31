@@ -70,13 +70,13 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
  * @param  {Object}     obj         The object to search for replacements
  * @param  {function}   comparator  The function used to evaluate whether a node matches a value in `obj`
  * @param  {babelNode}  nodePath    The node to evaluate
- * @return {*}  The first matching value to replace OR null
+ * @return {*}  A 0- or 1-element array containing the first matching replacement value if there was a match
  */
 const getFirstReplacementValueForNode = (obj, comparator, nodePath) => {
-  const replacementKey = getSortedObjectPaths(obj)
+  return getSortedObjectPaths(obj)
     .filter((value) => comparator(nodePath, value))
-    .shift();
-  return get(obj, replacementKey) || null;
+    .slice(0, 1)
+    .map((key) => get(obj, key));
 };
 
 /**
@@ -89,9 +89,7 @@ const getFirstReplacementValueForNode = (obj, comparator, nodePath) => {
  */
 const processNode = (replacements, nodePath, replaceFn, comparator) => { // eslint-disable-line
   const replacement = getFirstReplacementValueForNode(replacements, comparator, nodePath);
-  if (replacement) {
-    replaceAndEvaluateNode(replaceFn, nodePath, replacement);
-  }
+  replacement.forEach((val) => replaceAndEvaluateNode(replaceFn, nodePath, val));
 };
 
 const memberExpressionComparator = (nodePath, value) => nodePath.matchesPattern(value);
