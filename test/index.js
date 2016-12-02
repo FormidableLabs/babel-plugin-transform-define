@@ -71,6 +71,56 @@ describe("babel-plugin-transform-define", () => {
         path.join(__dirname, "./identifier/expected.js"), babelOpts);
     });
 
+    it("should transform false", () => {
+      const babelOpts = getBabelOps({
+        "PRODUCTION": false
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./false/actual.js"),
+        path.join(__dirname, "./false/expected.js"), babelOpts);
+    })
+
+    it("should transform 0", () => {
+      const babelOpts = getBabelOps({
+        "PRODUCTION": 0
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./0/actual.js"),
+        path.join(__dirname, "./0/expected.js"), babelOpts);
+    })
+
+    it("should transform empty string", () => {
+      const babelOpts = getBabelOps({
+        "PRODUCTION": ''
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./emptyString/actual.js"),
+        path.join(__dirname, "./emptyString/expected.js"), babelOpts);
+    })
+
+    it("should transform null", () => {
+      const babelOpts = getBabelOps({
+        "PRODUCTION": null
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./null/actual.js"),
+        path.join(__dirname, "./null/expected.js"), babelOpts);
+    })
+
+    it("should transform undefined", () => {
+      const babelOpts = getBabelOps({
+        "PRODUCTION": undefined
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./undefined/actual.js"),
+        path.join(__dirname, "./undefined/expected.js"), babelOpts);
+    })
+
     it("should transform code from config in a file", () => {
       const babelOpts = getBabelOps("./test/load-config-file/config.js");
 

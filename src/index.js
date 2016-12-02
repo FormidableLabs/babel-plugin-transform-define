@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const traverse = require("traverse");
 const get = require("lodash.get");
+const has = require("lodash.has");
 
 /**
  * Return an Array of every possible non-cyclic path in the object as a dot separated string sorted
@@ -66,20 +67,6 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
 };
 
 /**
- * Get the first value in the `obj` that causes the comparator to return true
- * @param  {Object}     obj         The object to search for replacements
- * @param  {function}   comparator  The function used to evaluate whether a node matches a value in `obj`
- * @param  {babelNode}  nodePath    The node to evaluate
- * @return {*}  The first matching value to replace OR null
- */
-const getFirstReplacementValueForNode = (obj, comparator, nodePath) => {
-  const replacementKey = getSortedObjectPaths(obj)
-    .filter((value) => comparator(nodePath, value))
-    .shift();
-  return get(obj, replacementKey) || null;
-};
-
-/**
  * Run the transformation over a node
  * @param  {Object}     replacements The object to search for replacements
  * @param  {babelNode}  nodePath     The node to evaluate
@@ -88,9 +75,11 @@ const getFirstReplacementValueForNode = (obj, comparator, nodePath) => {
  * @return {undefined}
  */
 const processNode = (replacements, nodePath, replaceFn, comparator) => { // eslint-disable-line
-  const replacement = getFirstReplacementValueForNode(replacements, comparator, nodePath);
-  if (replacement) {
-    replaceAndEvaluateNode(replaceFn, nodePath, replacement);
+  const replacementKey = getSortedObjectPaths(replacements)
+    .filter((value) => comparator(nodePath, value))
+    .shift();
+  if (has(replacements, replacementKey)) {
+    replaceAndEvaluateNode(replaceFn, nodePath, get(replacements, replacementKey));
   }
 };
 
