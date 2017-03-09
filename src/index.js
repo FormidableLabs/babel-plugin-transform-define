@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const traverse = require("traverse");
-const {get, has, find} = require("lodash");
+const { get, has, find } = require("lodash");
 
 /**
  * Return an Array of every possible non-cyclic path in the object as a dot separated string sorted
