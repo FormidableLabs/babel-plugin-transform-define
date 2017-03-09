@@ -5,7 +5,8 @@
   "version"         : "1.2.0",
   "contributors": [
     "Eric Baer <me@ericbaer.com> (https://github.com/baer)",
-    "Michael Jackson <mjijackson@gmail.com> (https://github.com/mjackson)"
+    "Michael Jackson <mjijackson@gmail.com> (https://github.com/mjackson)",
+    "Andy Edwards <jedwards@fastmail.com> (https://github.com/jedwards1211)"
   ],
 
   "homepage"        : "https://github.com/FormidableLabs/babel-plugin-transform-define",
@@ -17,7 +18,7 @@
   "private"         : false,
 
   "dependencies": {
-    "lodash.get"               : "4.4.2",
+    "lodash"                   : "4.17.4",
     "traverse"                 : "0.6.6"
   },
   "devDependencies": {
