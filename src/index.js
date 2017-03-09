@@ -1,8 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const traverse = require("traverse");
-const get = require("lodash.get");
-const has = require("lodash.has");
+const {get, has, find} = require("lodash");
 
 /**
  * Return an Array of every possible non-cyclic path in the object as a dot separated string sorted
@@ -64,23 +63,6 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
       nodePath.parentPath.replaceWith(replaceFn(result.value));
     }
   }
-};
-
-/**
- * Finds the first element of an array for which the given predicate returns true.
- * (we don't want to rely on Array.find() being present in the user's environment)
- * @param {Array}      array        The array to search
- * @param {function}   predicate    A function that will be called for each element in the array
- * @return {any} the first element for which `predicate(element)` is truthy, otherwise `undefined`.
- */
-const find = (array, predicate) => {
-  for (let index = 0; index < array.length; index++) {
-    const element = array[index];
-    if (predicate(element)) {
-      return element;
-    }
-  }
-  return undefined;
 };
 
 /**
