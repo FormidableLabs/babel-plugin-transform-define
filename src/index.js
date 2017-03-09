@@ -71,14 +71,17 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
  * (we don't want to rely on Array.find() being present in the user's environment)
  * @param {Array}      array        The array to search
  * @param {function}   predicate    A function that will be called for each element in the array
- * @return the first element for which `predicate(element)` is truthy, otherwise `undefined`.
+ * @return {any} the first element for which `predicate(element)` is truthy, otherwise `undefined`.
+ */
 const find = (array, predicate) => {
   for (let index = 0; index < array.length; index++) {
     const element = array[index];
-    if (predicate(element)) return element;
+    if (predicate(element)) {
+      return element;
+    }
   }
   return undefined;
-}
+};
 
 /**
  * Finds the first replacement in sorted object paths for replacements that causes comparator
