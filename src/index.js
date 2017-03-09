@@ -67,7 +67,8 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
 };
 
 /**
- * Run the transformation over a node
+ * Finds the first replacement in sorted object paths for replacements that causes comparator
+ * to return true.  If one is found, replaces the node with it.
  * @param  {Object}     replacements The object to search for replacements
  * @param  {babelNode}  nodePath     The node to evaluate
  * @param  {function}   replaceFn    The function used to replace the node
@@ -76,8 +77,7 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
  */
 const processNode = (replacements, nodePath, replaceFn, comparator) => { // eslint-disable-line
   const replacementKey = getSortedObjectPaths(replacements)
-    .filter((value) => comparator(nodePath, value))
-    .shift();
+    .find((value) => comparator(nodePath, value));
   if (has(replacements, replacementKey)) {
     replaceAndEvaluateNode(replaceFn, nodePath, get(replacements, replacementKey));
   }
