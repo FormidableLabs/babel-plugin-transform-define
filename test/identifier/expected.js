@@ -6,6 +6,8 @@ var x = {
   "version": '1.0.0'
 };
 
+console.log('1.0.0');
+
 if (!true) {
   console.log('Debug info');
 }
