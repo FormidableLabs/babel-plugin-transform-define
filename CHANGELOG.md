@@ -1,3 +1,14 @@
+## 1.3.0 (2017-05-15)
+
+#### User Facing Changes
+
+* Support falsy replacement values [https://github.com/FormidableLabs/babel-plugin-transform-define/pull/33]
+
+#### Internal
+
+* Update eslint config and packages
+* Update lodash version
+
 ## 1.2.0 (2016-08-25)
 
 #### User Facing Changes
