@@ -46,13 +46,13 @@ npm install babel-plugin-transform-define
   ]
 }
 ```
-_Note_: Paths are relative to `process.cwd()``
+_Note_: Paths are relative to `process.cwd()`
 
 ## Reference Documentation
 
 `babel-plugin-transform-define` can transform certain types of code as a babel transformation.
 
-#####`Identifiers`
+##### `Identifiers`
 
 *.babelrc*
 ```json
@@ -83,7 +83,7 @@ window.__MY_COMPANY__ = {
 };
 ```
 ***
-#####`Member Expressions`
+##### `Member Expressions`
 
 *.babelrc*
 ```json
@@ -110,7 +110,7 @@ if (true) {
 }
 ```
 ***
-#####`Unary Expressions`
+##### `Unary Expressions`
 
 *.babelrc*
 ```json
