@@ -28,14 +28,17 @@ export const getSortedObjectPaths = (obj) => {
  *  `babel-plugin-transfor-define` take options of two types: static config and a path to a file that
  *  can define config in any way a user sees fit. getReplacements takes the options and will either
  *  return the static config or get the dynamic config from disk
- * @param  {Object|String}  configOptions  configuration to parse
- * @return {Object}  replacement object
+ * @param  {Object} configOptions  configuration to parse
+ * @return {Object} replacement object
  */
 const getReplacements = (configOptions) => {
-  if (typeof configOptions === "object") { return configOptions; }
+  if (!configOptions || !configOptions.file) {
+    return configOptions;
+  }
 
+  const filePath = configOptions.file;
   try {
-    const fullPath = path.join(process.cwd(), configOptions);
+    const fullPath = path.join(process.cwd(), filePath);
     fs.accessSync(fullPath, fs.F_OK);
     return require(fullPath);
   } catch (err) {
