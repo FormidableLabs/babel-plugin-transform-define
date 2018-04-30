@@ -1,5 +1,5 @@
 {
-  "name"            : "@applications-developer/babel-plugin-transform-define",
+  "name"            : "babel-plugin-transform-define",
   "description"     : "Babel plugin that replaces member expressions and typeof statements with strings",
 
   "version"         : "1.3.1",
