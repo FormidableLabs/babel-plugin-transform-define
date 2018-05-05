@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const traverse = require("traverse");
 const { get, has, find } = require("lodash");
+const findParentDir = require("find-parent-dir");
 
 /**
  * Return an Array of every possible non-cyclic path in the object as a dot separated string sorted
@@ -31,11 +32,12 @@ export const getSortedObjectPaths = (obj) => {
  * @param  {Object|String}  configOptions  configuration to parse
  * @return {Object}  replacement object
  */
-const getReplacements = (configOptions) => {
+export const getReplacements = (configOptions) => {
   if (typeof configOptions === "object") { return configOptions; }
 
   try {
-    const fullPath = path.join(process.cwd(), configOptions);
+    const dir = findParentDir.sync(process.cwd(), configOptions);
+    const fullPath = path.join(dir, configOptions);
     fs.accessSync(fullPath, fs.F_OK);
     return require(fullPath);
   } catch (err) {

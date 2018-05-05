@@ -19,7 +19,8 @@
 
   "dependencies": {
     "lodash"                   : "4.17.4",
-    "traverse"                 : "0.6.6"
+    "traverse"                 : "0.6.6",
+    "find-parent-dir"          : "0.3.0"
   },
   "devDependencies": {
     "assert-transform"         : "^1.0.0",

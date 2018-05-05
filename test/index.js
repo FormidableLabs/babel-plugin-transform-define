@@ -155,5 +155,37 @@ describe("babel-plugin-transform-define", () => {
         assert.deepEqual(objectPaths, objectPaths.sort((elem) => elem.length));
       });
     });
+
+    describe("getReplacements", () => {
+      const config = {
+        "process.env.NODE_ENV": "development"
+      };
+      const cwd = process.cwd();
+      afterEach(() => {
+        process.chdir(cwd)
+      })
+
+      it("should return replacements object unmodified", () => {
+        const result = babelPluginTransformDefine.getReplacements(config);
+        assert.deepEqual(result, config);
+      });
+
+      it("should read config file", () => {
+        const result = babelPluginTransformDefine.getReplacements("./test/load-config-file/config.js");
+        assert.deepEqual(result, config);
+      });
+
+      it("should read config file in current directory", () => {
+        process.chdir('./test/load-config-file');
+        const result = babelPluginTransformDefine.getReplacements("config.js");
+        assert.deepEqual(result, config);
+      });
+
+      it("should read config file in parent directory", () => {
+        process.chdir('./test/load-config-file/sub');
+        const result = babelPluginTransformDefine.getReplacements('config.js');
+        assert.deepEqual(result, config);
+      });
+    });
   });
 });
