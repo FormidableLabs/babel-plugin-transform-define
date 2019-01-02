@@ -1,3 +1,7 @@
+## 1.3.1 (2019-01-01)
+
+* Update lodash to fix vulnerabilities
+
 ## 1.3.0 (2017-05-15)
 
 #### User Facing Changes
