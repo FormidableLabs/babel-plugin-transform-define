@@ -4,6 +4,8 @@ var x = {
   "version": VERSION
 }
 
+console.log(VERSION);
+
 if (!PRODUCTION) {
   console.log('Debug info');
 }
