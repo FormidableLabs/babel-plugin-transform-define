@@ -28,24 +28,21 @@ export const getSortedObjectPaths = (obj) => {
  *  `babel-plugin-transform-define` take options of two types: static config and a path to a file that
  *  can define config in any way a user sees fit. getReplacements takes the options and will either
  *  return the static config or get the dynamic config from disk
- * @param  {Object} configOptions  configuration to parse
+ * @param  {Object|String} configOptions  configuration to parse
  * @return {Object} replacement object
  */
 const getReplacements = (configOptions) => {
-  if (!configOptions || !configOptions.file) {
-    return configOptions;
-  }
+  // Short-circuit for final-form static configuration object.
+  if (typeof configOptions === "object") { return configOptions; }
 
-  const filePath = configOptions.file;
   try {
-    // TODO: GLOBAL `path.resolve`
-    const fullPath = path.join(process.cwd(), filePath);
+    const fullPath = path.resolve(configOptions);
     // TODO: try to make async (???)
     // TODO: Cache this lookup / whole function (!?!?!?)
     fs.accessSync(fullPath, fs.F_OK);
     return require(fullPath);
   } catch (err) {
-    console.error(`The nodePath: ${configOptions} is not valid.`); // eslint-disable-line
+    console.error(`The config path: ${configOptions} is not valid.`); // eslint-disable-line
     throw new Error(err);
   }
 };

@@ -16,12 +16,7 @@ const splitLines = ({ value }, fn) => value
   .map((line, idx, lines) => line === "" && idx === lines.length - 1 ? "" : fn(line))
   .join(EOL);
 
-const assertTransform = async (initial, expected, babelConfig) => {
-  const opts = {
-    ...babelConfig,
-    filename: initial
-  };
-
+const assertTransform = async (initial, expected, opts) => {
   const [actualCode, expectedCode] = await Promise.all([
     readFile(initial).then((code) => babel.transform(code, opts).code.trim()),
     readFile(expected).then((buf) => buf.toString().trim())
@@ -160,11 +155,11 @@ describe("babel-plugin-transform-define", () => {
         path.join(__dirname, "./undefined/expected.js"), babelOpts);
     });
 
-    // TODO: BROKEN
+    // TODO: HERE -- This was originally all keys, but now we need
+    // to define an object or hit:
+    // `Error: .plugins[0][1] must be an object, false, or undefined`.
     it.skip("should transform code from config in a file", () => {
-      const babelOpts = getBabelOps({
-        file: "./test/load-config-file/config.js"
-      });
+      const babelOpts = getBabelOps("./test/load-config-file/config.js");
 
       return assertTransform(
         path.join(__dirname, "./load-config-file/actual.js"),
