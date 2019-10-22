@@ -25,7 +25,7 @@ export const getSortedObjectPaths = (obj) => {
 };
 
 /**
- *  `babel-plugin-transfor-define` take options of two types: static config and a path to a file that
+ *  `babel-plugin-transform-define` take options of two types: static config and a path to a file that
  *  can define config in any way a user sees fit. getReplacements takes the options and will either
  *  return the static config or get the dynamic config from disk
  * @param  {Object} configOptions  configuration to parse
@@ -38,7 +38,10 @@ const getReplacements = (configOptions) => {
 
   const filePath = configOptions.file;
   try {
+    // TODO: GLOBAL `path.resolve`
     const fullPath = path.join(process.cwd(), filePath);
+    // TODO: try to make async (???)
+    // TODO: Cache this lookup / whole function (!?!?!?)
     fs.accessSync(fullPath, fs.F_OK);
     return require(fullPath);
   } catch (err) {
