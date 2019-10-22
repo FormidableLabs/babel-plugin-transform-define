@@ -1,3 +1,12 @@
+## 1.3.2 (2019-10-22)
+
+* Various infrastructure updates [#54](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/54)
+    * Add `CONTRIBUTING.md`, `yarn.lock`, `.npmignore`, update `.gitignore`.
+    * Switch to `yarn` for workflows and `npm version` for release workflow.
+* *Bug*: Fix sort comparator [#48](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/48)
+* Add test for CallExpression identifiers [#35](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/35)
+* Fixed Markdown headings [#42](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/42)
+
 ## 1.3.1 (2019-01-01)
 
 * Update lodash to fix vulnerabilities
