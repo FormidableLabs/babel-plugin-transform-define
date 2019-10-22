@@ -1,11 +1,50 @@
 "use strict";
 
-const assertTransform = require("assert-transform");
 const babel = require("babel-core");
 const path = require("path");
 const assert = require("assert");
 
 const babelPluginTransformDefine = require("../lib/index.js");
+
+const fs = require("fs");
+const { EOL } = require("os");
+const { promisify } = require("util");
+const jsdiff = require("diff");
+const chalk = require("chalk");
+
+const readFile = promisify(fs.readFile);
+
+const splitLines = ({ value }, fn) => value
+  .split(EOL)
+  .map((line, idx, lines) => line === "" && idx === lines.length - 1 ? "" : fn(line))
+  .join(EOL);
+
+const assertTransform = async (initial, expected, babelConfig) => {
+  const opts = {
+    ...babelConfig,
+    filename: initial
+  };
+
+  const [actualCode, expectedCode] = await Promise.all([
+    readFile(initial).then((code) => babel.transform(code, opts).code.trim()),
+    readFile(expected).then((buf) => buf.toString().trim())
+  ]);
+
+  const diff = jsdiff.diffLines(actualCode, expectedCode);
+  if (diff.length === 1) {
+    return true;
+  }
+
+  const msg = diff
+    .map((obj) => {
+      if (obj.added) { return splitLines(obj, (line) => chalk`{green +${line}}`); }
+      if (obj.removed) { return splitLines(obj, (line) => chalk`{red -${line}}`); }
+      return splitLines(obj, (line) => chalk`{grey  ${line}}`);
+    })
+    .join("");
+
+  throw new Error(`Difference found: ${EOL}${msg}`);
+};
 
 const getBabelOps = (pluginOps) => {
   return {
