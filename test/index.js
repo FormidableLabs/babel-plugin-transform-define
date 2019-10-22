@@ -1,6 +1,7 @@
 "use strict";
 
 // TODO: HERE -- replace `assert-transform`
+// TODO: Try out replacement in separate branch on `master` first.
 // const assertTransform = require("assert-transform");
 const assertTransform = () => Promise.resolve(true); // TODO: ACTUALLY IMPLEMENT
 
