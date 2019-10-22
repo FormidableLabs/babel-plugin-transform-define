@@ -1,14 +1,17 @@
+"use strict";
+
 VERSION;
 
 var x = {
-  "version": VERSION
-}
+  version: VERSION
+};
 
 console.log(VERSION);
 
 if (!PRODUCTION) {
-  console.log('Debug info');
+  console.log("Debug info");
 }
+
 if (PRODUCTION) {
-  console.log('Production log');
+  console.log("Production log");
 }

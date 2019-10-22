@@ -1,10 +1,11 @@
-'use strict';
+"use strict";
 
 var x = null;
 
 if (!null) {
-  console.log('Debug info');
+  console.log("Debug info");
 }
+
 if (null) {
-  console.log('Production log');
+  console.log("Production log");
 }

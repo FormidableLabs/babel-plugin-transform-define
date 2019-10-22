@@ -35,7 +35,7 @@
     "preversion": "yarn clean && yarn build && yarn run check",
     "clean": "rimraf lib",
     "build": "babel src -d lib",
-    "lint": "eslint src",
+    "lint": "eslint .",
     "test": "mocha test/index.js",
     "check": "yarn run lint && yarn run test"
   },
