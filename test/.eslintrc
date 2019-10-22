@@ -1,7 +1,14 @@
 ---
-"extends":
-  - "formidable/configurations/es6-node-test"
+extends:
+  - formidable/configurations/es6-node-test
 
 rules:
-  no-magic-numbers: OFF
-  max-statements: OFF
+  no-magic-numbers: off
+  max-statements: off
+  no-console: off
+
+  # Various stuff for output.
+  no-constant-condition: off
+  no-unused-vars: off
+  no-undef: off
+  no-var: off

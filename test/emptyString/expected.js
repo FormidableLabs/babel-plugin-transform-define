@@ -1,10 +1,11 @@
-'use strict';
+"use strict";
 
-var x = '';
+var x = "";
 
-if (!'') {
-  console.log('Debug info');
+if (!"") {
+  console.log("Debug info");
 }
-if ('') {
-  console.log('Production log');
+
+if ("") {
+  console.log("Production log");
 }

@@ -115,8 +115,8 @@ export default function ({ types: t }) {
         const typeofValues = {};
 
         keys.forEach((key) => {
-          if (key.substring(0, 7) === "typeof ") {
-            typeofValues[key.substring(7)] = replacements[key];
+          if (key.substring(0, 7) === "typeof ") { // eslint-disable-line no-magic-numbers
+            typeofValues[key.substring(7)] = replacements[key]; // eslint-disable-line no-magic-numbers
           }
         });
 
