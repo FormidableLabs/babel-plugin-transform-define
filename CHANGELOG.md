@@ -1,3 +1,9 @@
+# Changelog
+
+## UNRELEASED
+
+* Update library and tests to use `babel` 7+.
+
 ## 1.3.2 (2019-10-22)
 
 * Various infrastructure updates [#54](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/54)

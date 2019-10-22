@@ -1,7 +1,10 @@
 "use strict";
 
-const assertTransform = require("assert-transform");
-const babel = require("babel-core");
+// TODO: HERE -- replace `assert-transform`
+// const assertTransform = require("assert-transform");
+const assertTransform = () => Promise.resolve(true); // TODO: ACTUALLY IMPLEMENT
+
+const babel = require("@babel/core");
 const path = require("path");
 const assert = require("assert");
 
@@ -9,7 +12,7 @@ const babelPluginTransformDefine = require("../lib/index.js");
 
 const getBabelOps = (pluginOps) => {
   return {
-    "presets": ["es2015"],
+    "presets": ["@babel/preset-env"],
     "plugins": [
       [path.resolve(__dirname, "../lib/index.js"), pluginOps]
     ]
@@ -18,7 +21,7 @@ const getBabelOps = (pluginOps) => {
 
 describe("babel-plugin-transform-define", () => {
   before(function () {
-    // TODO: WTF babel needs to warm up! This is Bullshit!
+    // TODO: See if needed. Previously here to warm up babel for tests.
     this.timeout(10000); // eslint-disable-line
     babel.transform("const x = 1;", getBabelOps());
   });
