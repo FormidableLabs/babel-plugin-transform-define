@@ -32,13 +32,12 @@
   },
   "main": "lib",
   "scripts": {
-    "build": "babel ./src -d lib",
-    "check": "npm run clean && npm run build && npm run test && npm run lint",
-    "clean": "rimraf lib/",
+    "preversion": "yarn clean && yarn build && yarn run check",
+    "clean": "rimraf lib",
+    "build": "babel src -d lib",
     "lint": "eslint src",
-    "prepublish": "npm run clean && npm run build",
-    "release": "node ./scripts/release.js",
-    "test": "mocha ./test/index.js"
+    "test": "mocha test/index.js",
+    "check": "yarn run lint && yarn run test"
   },
   "engines": {
     "node": ">= 4.x.x"
