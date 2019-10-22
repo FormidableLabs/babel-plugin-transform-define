@@ -152,7 +152,7 @@ describe("babel-plugin-transform-define", () => {
       it("should return a list sorted by length", () => {
         const obj = { process: { env: { NODE_ENV: "development" } } };
         const objectPaths = babelPluginTransformDefine.getSortedObjectPaths(obj);
-        assert.deepEqual(objectPaths, objectPaths.sort((elem) => elem.length));
+        assert.deepEqual(objectPaths, objectPaths.sort((a, b) => b.length - a.length));
       });
     });
   });

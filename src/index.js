@@ -21,7 +21,7 @@ export const getSortedObjectPaths = (obj) => {
     .paths()
     .filter((arr) => arr.length)
     .map((arr) => arr.join("."))
-    .sort((elem) => elem.length);
+    .sort((a, b) => b.length - a.length);
 };
 
 /**
