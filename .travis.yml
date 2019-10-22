@@ -1,11 +1,13 @@
 language: node_js
 
 node_js:
-  - "4"
-  - "5"
-  - "6"
+  - "8"
+  - "10"
+  - "12"
 
-script: npm run check
+script:
+  - yarn run build
+  - yarn run check
 
 branches:
   only:
