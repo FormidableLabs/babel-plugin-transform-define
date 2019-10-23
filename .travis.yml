@@ -6,6 +6,11 @@ node_js:
   - "12"
   - "13"
 
+install:
+  # Fail if lockfile outdated.
+  # https://yarnpkg.com/lang/en/docs/cli/install/#toc-yarn-install-frozen-lockfile
+  - yarn install --frozen-lockfile
+
 script:
   - yarn run check
 
