@@ -1,6 +1,6 @@
 ---
 extends:
-  - formidable/configurations/es6
+  - formidable/configurations/es6-node
 
 rules:
   max-len:

@@ -6,6 +6,7 @@
 
 * Change plugin options to **only** be a real JS object. Removes string configuration path option as now this is all possible with dynamic `.babelrc.js` or `babel.config.js` files.
 * Update to `@babel/core` / Babel 7+.
+* Update `package.json:engines` to minimum Node 8.
 
 #### Internal
 
