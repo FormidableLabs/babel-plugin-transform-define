@@ -17,9 +17,17 @@ const splitLines = ({ value }, fn) => value
   .join(EOL);
 
 const assertTransform = async (initial, expected, opts) => {
+  const transformOpts = {
+    ...opts,
+    // Specify filename to pick up local `.babelrc.js`
+    // https://babeljs.io/docs/en/options#babelrc
+    filename: initial
+  };
+
+  // Note: We trim + EOL to normalize whitespace + give readable error diffs
   const [actualCode, expectedCode] = await Promise.all([
-    readFile(initial).then((code) => babel.transform(code, opts).code.trim()),
-    readFile(expected).then((buf) => buf.toString().trim())
+    readFile(initial).then((code) => babel.transform(code, transformOpts).code.trim() + EOL),
+    readFile(expected).then((buf) => buf.toString().trim() + EOL)
   ]);
 
   const diff = jsdiff.diffLines(actualCode, expectedCode);
@@ -158,13 +166,10 @@ describe("babel-plugin-transform-define", () => {
     // TODO: HERE -- This was originally all keys, but now we need
     // to define an object or hit:
     // `Error: .plugins[0][1] must be an object, false, or undefined`.
-    it.skip("should transform code from config in a file", () => {
-      const babelOpts = getBabelOps("./test/load-config-file/config.js");
-
-      return assertTransform(
-        path.join(__dirname, "./load-config-file/actual.js"),
-        path.join(__dirname, "./load-config-file/expected.js"), babelOpts);
-    });
+    it("should transform code from dynamic .babelrc.js", () => assertTransform(
+      path.join(__dirname, "./load-dynamic-babelrc/actual.js"),
+      path.join(__dirname, "./load-dynamic-babelrc/expected.js")
+    ));
   });
 
   describe("unit tests", () => {
