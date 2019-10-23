@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED
+## 2.0.0 (2019-10-23)
 
 #### Breaking Changes
 
