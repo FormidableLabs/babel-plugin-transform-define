@@ -10,7 +10,6 @@
 #### Infrastructure
 
 * Lint all `test` code.
-* Update library and tests to use `babel` 7+.
 
 ## 1.3.2 (2019-10-22)
 

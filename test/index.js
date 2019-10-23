@@ -10,6 +10,8 @@ const babel = require("@babel/core");
 const jsdiff = require("diff");
 const chalk = require("chalk");
 
+const babelPluginTransformDefine = require("../lib/index.js");
+
 const readFile = promisify(fs.readFile);
 const splitLines = ({ value }, fn) => value
   .split(EOL)
@@ -47,9 +49,6 @@ const assertTransform = async (initial, expected, opts) => {
 
   throw new Error(chalk `{white Difference found ({green actual}, {red expected}): ${EOL}}${msg}`);
 };
-
-
-const babelPluginTransformDefine = require("../lib/index.js");
 
 const getBabelOps = (pluginOps) => ({
   presets: ["@babel/preset-env"],
