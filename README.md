@@ -21,7 +21,7 @@
 ## Quick Start
 
 ```shell
-npm install babel-plugin-transform-define
+$ npm install --save-dev babel-plugin-transform-define
 ```
 
 **.babelrc**
@@ -37,16 +37,22 @@ npm install babel-plugin-transform-define
 }
 ```
 
-**.babelrc**
+**.babelrc.js**
 
-```json
-{
-  "plugins": [
-    ["transform-define", "./path/to/config/file.js"]
+```js
+// E.g., any dynamic logic with JS, environment variables, etc.
+const overrides = require("./another-path.js");
+
+module.exports = {
+  plugins: [
+    ["transform-define", {
+      "process.env.NODE_ENV": "production",
+      "typeof window": "object",
+      ...overrides
+    }]
   ]
-}
+};
 ```
-_Note_: Paths are relative to `process.cwd()``
 
 ## Reference Documentation
 

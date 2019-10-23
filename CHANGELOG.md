@@ -2,6 +2,13 @@
 
 ## UNRELEASED
 
+#### Breaking Changes
+
+* Change plugin options to **only** be a real JS object. Removes string configuration path option as now this is all possible with dynamic `.babelrc.js` or `babel.config.js` files.
+* Update to `@babel/core` / Babel 7+.
+
+#### Infrastructure
+
 * Lint all `test` code.
 * Update library and tests to use `babel` 7+.
 

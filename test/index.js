@@ -163,9 +163,6 @@ describe("babel-plugin-transform-define", () => {
         path.join(__dirname, "./undefined/expected.js"), babelOpts);
     });
 
-    // TODO: HERE -- This was originally all keys, but now we need
-    // to define an object or hit:
-    // `Error: .plugins[0][1] must be an object, false, or undefined`.
     it("should transform code from dynamic .babelrc.js", () => assertTransform(
       path.join(__dirname, "./load-dynamic-babelrc/actual.js"),
       path.join(__dirname, "./load-dynamic-babelrc/expected.js")
@@ -186,11 +183,13 @@ describe("babel-plugin-transform-define", () => {
         objectPaths = babelPluginTransformDefine.getSortedObjectPaths({ process: "env" });
         assert(Array.isArray(objectPaths));
       });
+
       it("should return a complete list of paths", () => {
         const obj = { process: { env: { NODE_ENV: "development" } } };
         const objectPaths = babelPluginTransformDefine.getSortedObjectPaths(obj);
         assert.deepEqual(objectPaths, ["process.env.NODE_ENV", "process.env", "process"]);
       });
+
       it("should return a list sorted by length", () => {
         const obj = { process: { env: { NODE_ENV: "development" } } };
         const objectPaths = babelPluginTransformDefine.getSortedObjectPaths(obj);
