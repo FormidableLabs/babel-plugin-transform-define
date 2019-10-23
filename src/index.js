@@ -52,7 +52,8 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
  * @param  {function}   comparator   The function used to evaluate whether a node matches a value in `replacements`
  * @return {undefined}
  */
-const processNode = (replacements, nodePath, replaceFn, comparator) => { // eslint-disable-line
+// eslint-disable-next-line max-params
+const processNode = (replacements, nodePath, replaceFn, comparator) => {
   const replacementKey = find(getSortedObjectPaths(replacements),
     (value) => comparator(nodePath, value));
   if (has(replacements, replacementKey)) {
@@ -63,6 +64,7 @@ const processNode = (replacements, nodePath, replaceFn, comparator) => { // esli
 const memberExpressionComparator = (nodePath, value) => nodePath.matchesPattern(value);
 const identifierComparator = (nodePath, value) => nodePath.node.name === value;
 const unaryExpressionComparator = (nodePath, value) => nodePath.node.argument.name === value;
+const TYPEOF_PREFIX = "typeof ";
 
 export default function ({ types: t }) {
   return {
@@ -87,8 +89,8 @@ export default function ({ types: t }) {
         const typeofValues = {};
 
         keys.forEach((key) => {
-          if (key.substring(0, 7) === "typeof ") { // eslint-disable-line no-magic-numbers
-            typeofValues[key.substring(7)] = opts[key]; // eslint-disable-line no-magic-numbers
+          if (key.substring(0, TYPEOF_PREFIX.length) === TYPEOF_PREFIX) {
+            typeofValues[key.substring(TYPEOF_PREFIX.length)] = opts[key];
           }
         });
 
