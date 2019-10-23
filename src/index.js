@@ -1,5 +1,3 @@
-const fs = require("fs");
-const path = require("path");
 const traverse = require("traverse");
 const { get, has, find } = require("lodash");
 
@@ -22,26 +20,6 @@ export const getSortedObjectPaths = (obj) => {
     .filter((arr) => arr.length)
     .map((arr) => arr.join("."))
     .sort((a, b) => b.length - a.length);
-};
-
-/**
- *  `babel-plugin-transfor-define` take options of two types: static config and a path to a file that
- *  can define config in any way a user sees fit. getReplacements takes the options and will either
- *  return the static config or get the dynamic config from disk
- * @param  {Object|String}  configOptions  configuration to parse
- * @return {Object}  replacement object
- */
-const getReplacements = (configOptions) => {
-  if (typeof configOptions === "object") { return configOptions; }
-
-  try {
-    const fullPath = path.join(process.cwd(), configOptions);
-    fs.accessSync(fullPath, fs.F_OK);
-    return require(fullPath);
-  } catch (err) {
-    console.error(`The nodePath: ${configOptions} is not valid.`); // eslint-disable-line
-    throw new Error(err);
-  }
 };
 
 /**
@@ -74,7 +52,8 @@ const replaceAndEvaluateNode = (replaceFn, nodePath, replacement) => {
  * @param  {function}   comparator   The function used to evaluate whether a node matches a value in `replacements`
  * @return {undefined}
  */
-const processNode = (replacements, nodePath, replaceFn, comparator) => { // eslint-disable-line
+// eslint-disable-next-line max-params
+const processNode = (replacements, nodePath, replaceFn, comparator) => {
   const replacementKey = find(getSortedObjectPaths(replacements),
     (value) => comparator(nodePath, value));
   if (has(replacements, replacementKey)) {
@@ -85,6 +64,7 @@ const processNode = (replacements, nodePath, replaceFn, comparator) => { // esli
 const memberExpressionComparator = (nodePath, value) => nodePath.matchesPattern(value);
 const identifierComparator = (nodePath, value) => nodePath.node.name === value;
 const unaryExpressionComparator = (nodePath, value) => nodePath.node.argument.name === value;
+const TYPEOF_PREFIX = "typeof ";
 
 export default function ({ types: t }) {
   return {
@@ -92,25 +72,25 @@ export default function ({ types: t }) {
 
       // process.env.NODE_ENV;
       MemberExpression(nodePath, state) {
-        processNode(getReplacements(state.opts), nodePath, t.valueToNode, memberExpressionComparator);
+        processNode(state.opts, nodePath, t.valueToNode, memberExpressionComparator);
       },
 
       // const x = { version: VERSION };
       Identifier(nodePath, state) {
-        processNode(getReplacements(state.opts), nodePath, t.valueToNode, identifierComparator);
+        processNode(state.opts, nodePath, t.valueToNode, identifierComparator);
       },
 
       // typeof window
       UnaryExpression(nodePath, state) {
         if (nodePath.node.operator !== "typeof") { return; }
 
-        const replacements = getReplacements(state.opts);
-        const keys = Object.keys(replacements);
+        const { opts } = state;
+        const keys = Object.keys(opts);
         const typeofValues = {};
 
         keys.forEach((key) => {
-          if (key.substring(0, 7) === "typeof ") {
-            typeofValues[key.substring(7)] = replacements[key];
+          if (key.substring(0, TYPEOF_PREFIX.length) === TYPEOF_PREFIX) {
+            typeofValues[key.substring(TYPEOF_PREFIX.length)] = opts[key];
           }
         });
 

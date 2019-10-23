@@ -1,16 +1,17 @@
-'use strict';
+"use strict";
 
-'1.0.0';
+"1.0.0";
 
 var x = {
-  "version": '1.0.0'
+  version: "1.0.0"
 };
 
-console.log('1.0.0');
+console.log("1.0.0");
 
 if (!true) {
-  console.log('Debug info');
+  console.log("Debug info");
 }
+
 if (true) {
-  console.log('Production log');
+  console.log("Production log");
 }

@@ -1,3 +1,16 @@
+# Changelog
+
+## UNRELEASED
+
+#### Breaking Changes
+
+* Change plugin options to **only** be a real JS object. Removes string configuration path option as now this is all possible with dynamic `.babelrc.js` or `babel.config.js` files.
+* Update to `@babel/core` / Babel 7+.
+
+#### Internal
+
+* Lint all `test` code.
+
 ## 1.3.2 (2019-10-22)
 
 * Various infrastructure updates [#54](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/54)

@@ -1,14 +1,8 @@
 ---
-"extends":
-  - "formidable/configurations/es6"
+extends:
+  - formidable/configurations/es6
 
 rules:
-  no-magic-numbers: OFF
-  max-statements: OFF
-  no-console: OFF
   max-len:
     - error
     - 120
-
-globals:
-  console: false
