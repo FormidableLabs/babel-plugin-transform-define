@@ -6,6 +6,10 @@ node_js:
   - "12"
   - "13"
 
+arch:
+  - amd64
+  - ppc64le
+  
 install:
   # Fail if lockfile outdated.
   # https://yarnpkg.com/lang/en/docs/cli/install/#toc-yarn-install-frozen-lockfile
