@@ -13,8 +13,10 @@ const chalk = require("chalk");
 const babelPluginTransformDefine = require("../lib/index.js");
 
 const readFile = promisify(fs.readFile);
+
+// Our source files are Unix-style so account for any OS.
 const splitLines = ({ value }, fn) => value
-  .split(EOL)
+  .split(/\n|\r\n/)
   .map((line, idx, lines) => line === "" && idx === lines.length - 1 ? "" : fn(line))
   .join(EOL);
 
