@@ -1,0 +1,9 @@
+import DONT_REPLACE_ME, { DONT_REPLACE_ME_EITHER } from 'foo';
+
+DONT_REPLACE_ME;
+DONT_REPLACE_ME_EITHER;
+
+function childScope() {
+  DONT_REPLACE_ME;
+  DONT_REPLACE_ME_EITHER;
+}

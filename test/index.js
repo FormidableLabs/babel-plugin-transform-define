@@ -166,6 +166,21 @@ describe("babel-plugin-transform-define", () => {
       path.join(__dirname, "./load-dynamic-babelrc/actual.js"),
       path.join(__dirname, "./load-dynamic-babelrc/expected.js")
     ));
+
+    it("should not transform import identifiers", () => {
+      // Don't use `getBabelOpts` here cause we want to avoid preset-env which
+      // injects a bunch of extra code to handle es modules. It makes the test
+      // output harder to read.
+      const babelOpts = {
+        plugins: [
+          [path.resolve(__dirname, "../lib/index.js"), { DONT_REPLACE_ME: "injected" }]
+        ]
+      };
+
+      return assertTransform(
+        path.join(__dirname, "./import-identifiers/actual.js"),
+        path.join(__dirname, "./import-identifiers/expected.js"), babelOpts);
+    });
   });
 
   describe("unit tests", () => {
