@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1
+
+* *Bug*: Support ES module identifiers [#69](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/69), [#70](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/70) (*[@jdlm-stripe][]*)
+
 ## 2.0.0 (2019-10-23)
 
 #### Breaking Changes
@@ -78,3 +82,5 @@
 ## 1.0.0 (2016-03-21)
 
 Initial Release
+
+[@jdlm-stripe]: https://github.com/jdlm-stripe
