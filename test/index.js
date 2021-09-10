@@ -27,10 +27,15 @@ const assertTransform = async (initial, expected, opts) => {
   };
 
   // Note: We trim + EOL to normalize whitespace + give readable error diffs
+  // Also normalize across OS'es.
   const [actualCode, expectedCode] = await Promise.all([
-    readFile(initial).then((code) => babel.transform(code, transformOpts).code.trim() + EOL),
-    readFile(expected).then((buf) => buf.toString().trim() + EOL)
-  ]);
+    readFile(initial).then((code) => babel.transform(code, transformOpts).code),
+    readFile(expected).then((buf) => buf.toString())
+  ]).then((vals) => vals.map((val) => val
+    .split(/\r?\n/)
+    .join(EOL)
+    .trim() + EOL
+  ));
 
   const diff = jsdiff.diffLines(actualCode, expectedCode);
   // Consider no diff or newline-only diff to be "the same".

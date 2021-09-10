@@ -59,4 +59,4 @@ jobs:
           CI: true
 
       - name: Checks
-        run: yarn check
+        run: yarn run check
