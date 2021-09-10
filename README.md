@@ -7,8 +7,8 @@
   <a href="https://badge.fury.io/js/babel-plugin-transform-define">
     <img src="https://badge.fury.io/js/babel-plugin-transform-define.svg" alt="npm version" height="18">
   </a>
-  <a href='http://travis-ci.com/FormidableLabs/babel-plugin-transform-define'>
-    <img src='https://travis-ci.com/FormidableLabs/babel-plugin-transform-define.svg?branch=master' />
+  <a href='https://github.com/FormidableLabs/babel-plugin-transform-define/actions'>
+    <img src='https://github.com/FormidableLabs/babel-plugin-transform-define/workflows/CI/badge.svg' />
   </a>
 </p>
 
