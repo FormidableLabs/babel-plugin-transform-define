@@ -10,6 +10,9 @@
   <a href='https://github.com/FormidableLabs/babel-plugin-transform-define/actions'>
     <img src='https://github.com/FormidableLabs/babel-plugin-transform-define/workflows/CI/badge.svg' />
   </a>
+  <a href='https://github.com/FormidableLabs/babel-plugin-transform-define#maintenance-status'>
+    <img alt="Maintenance Status" src='https://img.shields.io/badge/maintenance-stable-yellow.svg?color=yellow&style=flat' />
+  </a>
 </p>
 
 <h4 align="center">
