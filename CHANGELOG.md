@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0
+
+* Add memoization to `getSortedObjectPaths` utility for better performance under certain circumstances.
+
 ## 2.0.1
 
 * *Bug*: Support ES module identifiers [#69](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/69), [#70](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/70) (*[@jdlm-stripe][]*)
