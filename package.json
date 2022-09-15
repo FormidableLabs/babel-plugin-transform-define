@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-transform-define",
   "description": "Babel plugin that replaces member expressions and typeof statements with strings",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "contributors": [
     "Eric Baer <me@ericbaer.com> (https://github.com/baer)",
     "Michael Jackson <mjijackson@gmail.com> (https://github.com/mjackson)",
