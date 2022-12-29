@@ -1,4 +1,6 @@
-<h1 align="center">babel-plugin-transform-define</h1>
+<a href="https://formidable.com/open-source/" target="_blank">
+  <img alt="Babel Plugin Transform Define — Formidable, We build the modern web" src="./babel-plugin-transform-define-Hero.png" />
+</a>
 
 <p align="center">
   <a title='Build Status' href="https://raw.githubusercontent.com/FormidableLabs/babel-plugin-transform-define/master/LICENSE">
