@@ -1,5 +1,5 @@
 <a href="https://formidable.com/open-source/" target="_blank">
-  <img alt="Babel Plugin Transform Define — Formidable, We build the modern web" src="./babel-plugin-transform-define-Hero.png" />
+  <img alt="Babel Plugin Transform Define — Formidable, We build the modern web" src="https://raw.githubusercontent.com/FormidableLabs/babel-plugin-transform-define/master/babel-plugin-transform-define-Hero.png" />
 </a>
 
 <p align="center">
