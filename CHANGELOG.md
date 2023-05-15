@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1
+
+* Avoid replacements for variable bindings via [#82](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/82). 
+
 ## 2.1.0
 
 * Add memoization to `getSortedObjectPaths` utility for better performance under certain circumstances.
