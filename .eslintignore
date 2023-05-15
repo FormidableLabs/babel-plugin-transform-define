@@ -1,2 +1,3 @@
 node_modules
+test/binding
 test/import-identifiers

@@ -186,6 +186,21 @@ describe("babel-plugin-transform-define", () => {
         path.join(__dirname, "./import-identifiers/actual.js"),
         path.join(__dirname, "./import-identifiers/expected.js"), babelOpts);
     });
+
+    it("should not transform identifiers with binding", () => {
+      const babelOpts = getBabelOps({
+        NO_BINDING: "replaced",
+        VAR_BINDING: "replaced",
+        LET_BINDING: "replaced",
+        CONST_BINDING: "replaced",
+        HOISTED_BINDING: "replaced",
+        PARAM_BINDING: "replaced"
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./binding/actual.js"),
+        path.join(__dirname, "./binding/expected.js"), babelOpts);
+    });
   });
 
   describe("unit tests", () => {
