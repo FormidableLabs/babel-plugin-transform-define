@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/FormidableLabs/babel-plugin-transform-define/issues"
   },
-  "repository": "git://github.com/FormidableLabs/babel-plugin-transform-define.git",
+  "repository": "https://github.com/FormidableLabs/babel-plugin-transform-define",
   "private": false,
   "dependencies": {
     "lodash": "^4.17.11",
@@ -21,6 +21,8 @@
     "@babel/cli": "^7.15.4",
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
+    "@changesets/cli": "^2.26.1",
+    "@svitejs/changesets-changelog-github-compact": "^0.1.1",
     "babel-eslint": "^10.0.3",
     "eslint": "^7.32.0",
     "eslint-config-formidable": "^4.0.0",
@@ -38,6 +40,9 @@
   },
   "engines": {
     "node": ">= 8.x.x"
+  },
+  "publishConfig": {
+    "provenance": true
   },
   "license": "MIT",
   "keywords": [
