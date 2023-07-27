@@ -205,7 +205,7 @@ describe("babel-plugin-transform-define", () => {
     it("should not transform object keys unless they are computed", () => {
       const babelOpts = getBabelOps({
         __DEV__: true,
-        __DEV2__: "true",
+        __DEV2__: "true"
       });
 
       return assertTransform(
