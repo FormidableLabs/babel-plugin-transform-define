@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.3
+
+### Patch Changes
+
+- Addresses #85, avoids replacing object keys. ([#86](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/86))
+
 ## 2.1.2
 
 ### Patch Changes
