@@ -201,6 +201,17 @@ describe("babel-plugin-transform-define", () => {
         path.join(__dirname, "./binding/actual.js"),
         path.join(__dirname, "./binding/expected.js"), babelOpts);
     });
+
+    it("should not transform object keys unless they are computed", () => {
+      const babelOpts = getBabelOps({
+        __DEV__: true,
+        __DEV2__: "true"
+      });
+
+      return assertTransform(
+        path.join(__dirname, "./object-keys/actual.js"),
+        path.join(__dirname, "./object-keys/expected.js"), babelOpts);
+    });
   });
 
   describe("unit tests", () => {
