@@ -20,3 +20,7 @@ var obj4 = _defineProperty({}, "__DEV__", true);
 var obj5 = _defineProperty({}, true, true);
 
 var obj6 = _defineProperty({}, "true", "true");
+
+var access = obj.__DEV__;
+var access1 = obj["true"];
+var access2 = obj["__DEV__"];
