@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.4
+
+### Patch Changes
+
+- follow-up to last release, also prevent object properties from being replaced ([#88](https://github.com/FormidableLabs/babel-plugin-transform-define/pull/88))
+
 ## 2.1.3
 
 ### Patch Changes
