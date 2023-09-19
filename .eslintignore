@@ -1,4 +1,4 @@
 node_modules
 test/binding
 test/import-identifiers
-test/object-keys
+test/object-keys-properties
